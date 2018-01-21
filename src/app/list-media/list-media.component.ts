@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MediaService } from '../services/media.service';
 import { Observable } from 'rxjs/Observable';
+import { DigitransitService } from '../services/digitransit.service';
 import "rxjs/add/operator/map";
 
 @Component({
@@ -11,14 +12,20 @@ import "rxjs/add/operator/map";
 export class ListMediaComponent implements OnInit {
 
   imagesURL: string[] = [];
-
-  constructor(private mediaService: MediaService) { }
+  stops: any[] = [];
+  constructor(private mediaService: MediaService, private digitransitService: DigitransitService) { }
 
   ngOnInit() {
     this.mediaService.getAllMedia().subscribe(files => {
       files.map(file => {
         this.mediaService.getImageFileById(file.fileId).subscribe(imageFile => this.imagesURL.push(imageFile.downloadImageURL));
       });
+    });
+  }
+
+  search(stopName: string) {
+    this.digitransitService.routesPassStop(stopName).subscribe(res => {
+      this.stops = res['data'].stops;
     });
   }
 

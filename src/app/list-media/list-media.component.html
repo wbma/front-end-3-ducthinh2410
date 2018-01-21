@@ -1,3 +1,21 @@
+<h1>Media</h1>
 <div *ngIf="imagesURL.length">
   <img *ngFor="let url of imagesURL"src="{{url}}">
+</div>
+
+
+<h1>DigiTransit</h1>
+<div>
+  <input #searchBox id="stopName">
+  <button class="btn btn-primary" (click)="search(searchBox.value)">Get Stop</button>
+
+  <div *ngFor = "let stop of stops">
+  <h3>{{stop.name}}</h3>
+  <ul>
+    <li *ngFor = "let pattern of stop.patterns">
+        <p>{{pattern.name +" "+ pattern.route.shortName +" "+ pattern.route.longName}}</p>
+    </li>
+  </ul>
+</div>
+
 </div>
